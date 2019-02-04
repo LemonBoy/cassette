@@ -71,7 +71,7 @@ type
     All
 
   CassetteClientBase[T] = ref object
-    innerClient: T
+    innerClient*: T
     recordMode: CassetteRecordMode
     filePath: string
     dirty, wasBlank: bool
@@ -168,6 +168,11 @@ proc newAsyncCassetteClient*(httpClient: AsyncHttpClient; cassetteFile: string;
 proc close*(c: CassetteClient | AsyncCassetteClient) =
   ## Close any connection held by the client.
   c.innerClient.close()
+
+proc headers*(c: CassetteClient | AsyncCassetteClient): var HttpHeaders =
+  ## Small wrapper function to let the user read or modify the inner client
+  ## `headers` field.
+  c.innerClient.headers
 
 proc request*(c: CassetteClient | AsyncCassetteClient; url: string;
               httpMethod: string; body: string = ""; headers: HttpHeaders = nil):
