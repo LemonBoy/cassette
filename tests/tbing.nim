@@ -15,6 +15,7 @@ proc main() {.async.} =
   echo asXml.status
   echo await asJs.body
   echo await asXml.body
+  cass.close()
   cass.dispose()
 
 waitFor main()
